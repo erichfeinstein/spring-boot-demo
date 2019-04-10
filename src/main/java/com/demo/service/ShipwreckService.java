@@ -1,5 +1,6 @@
 package com.demo.service;
 
+import com.demo.exception.InvalidShipwreck;
 import com.demo.exception.ShipwreckNotFound;
 import com.demo.model.Shipwreck;
 import com.demo.model.ShipwreckResponse;
@@ -22,7 +23,8 @@ public class ShipwreckService {
         return shipwrecks;
     }
 
-    public Shipwreck create(Shipwreck shipwreck) {
+    public Shipwreck create(Shipwreck shipwreck) throws InvalidShipwreck {
+        if (!shipwreck.isValid()) throw new InvalidShipwreck("Invalid Shipwreck");
         final Shipwreck createdShipwreck = shipwreckRepository.saveAndFlush(shipwreck);
         return createdShipwreck;
     }
@@ -33,7 +35,8 @@ public class ShipwreckService {
         return foundShipwreck;
     }
 
-    public Shipwreck updateById(long id, Shipwreck shipwreck) throws ShipwreckNotFound {
+    public Shipwreck updateById(long id, Shipwreck shipwreck) throws ShipwreckNotFound, InvalidShipwreck {
+        if (!shipwreck.isValid()) throw new InvalidShipwreck("Invalid Shipwreck");
         final Shipwreck shipwreckToUpdate = shipwreckRepository.findById(id);
         if (shipwreckToUpdate == null) throw new ShipwreckNotFound();
         BeanUtils.copyProperties(shipwreck, shipwreckToUpdate);

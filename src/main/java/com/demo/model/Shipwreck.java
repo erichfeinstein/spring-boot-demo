@@ -100,4 +100,9 @@ public class Shipwreck {
 	public void setYearDiscovered(Integer yearDiscovered) {
 		this.yearDiscovered = yearDiscovered;
 	}
+
+	public boolean isValid() {
+		if (this.getDepth() > 0 && this.getYearDiscovered() > 1800) return true;
+		else return false;
+	}
 }

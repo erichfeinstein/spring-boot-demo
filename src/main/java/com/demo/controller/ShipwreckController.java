@@ -23,11 +23,11 @@ public class ShipwreckController {
     ShipwreckService shipwreckService;
 
     @RequestMapping(value = "shipwrecks", method = RequestMethod.GET)
-    public List<Shipwreck> list() {
+    public ResponseEntity list() {
         try {
             List<Shipwreck> allShips = shipwreckService.getAll();
-            return allShips;
-//            return marshallResponse(allShips, HttpStatus.OK);
+//            return allShips;
+            return marshallResponse(allShips, HttpStatus.OK);
         } catch (Exception e) {
             Logger logger = LoggerFactory.getLogger(ShipwreckController.class);
             logger.info("There was a problem");
@@ -37,13 +37,21 @@ public class ShipwreckController {
 
     @RequestMapping(value = "shipwrecks", method = RequestMethod.POST)
     public Shipwreck create(@RequestBody Shipwreck shipwreck) {
-        Shipwreck newShipwreck = shipwreckService.create(shipwreck);
-        return newShipwreck;
+        try {
+            Shipwreck newShipwreck = shipwreckService.create(shipwreck);
+            return newShipwreck;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @RequestMapping(value = "shipwrecks/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable Long id) {
-        shipwreckService.deleteById(id);
+    public ResponseEntity delete(@PathVariable Long id) {
+        try {
+            shipwreckService.deleteById(id);
+        }catch (Exception e) {
+            return null;
+        }
     }
 
     @RequestMapping(value = "shipwrecks/{id}", method = RequestMethod.GET)
