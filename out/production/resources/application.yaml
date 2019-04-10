@@ -1,0 +1,20 @@
+server:
+  port: 8080
+logging:
+  level:
+    com.restApi: DEBUG
+app:
+  restClient:
+    connectionTimeoutMs: 1000
+    readTimeoutMs: 1000
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shipwreckdb
+    username: user
+    password: pass
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
